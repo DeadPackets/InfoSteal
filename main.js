@@ -11,7 +11,7 @@ var fs = require('fs');
 // {OPTIONAL} var crypto = require('crypto')
 var auth = require('basic-auth');
 //var port = 443;
-var httpport = 8080;
+var httpport = 80;
 /*var options = {
     key: fs.readFileSync('privkey/goes/here/privkey.pem'),
     cert: fs.readFileSync('cert/goes/here/cert.pem')
@@ -87,7 +87,7 @@ function decrypt(text) {
 var serverhttp = http.createServer(app).listen(httpport, function() {
     log.info("Express server listening on port " + httpport);
 });
-serverhttp.listen(80);
+serverhttp.listen(httpport);
 
 //SOCKET.IO INIT
 var io = require('socket.io')(serverhttp)
