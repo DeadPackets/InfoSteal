@@ -56,7 +56,9 @@ typings/
 
 # dotenv environment variables file
 .env
+
 #ssl certs
-.pem
+*.pem
+ssl
 
 0

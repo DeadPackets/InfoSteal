@@ -6,16 +6,16 @@ var express = require('express');
 const colors = require('colors');
 var app = express();
 var http = require('http')
-//var https = require('https')
+var https = require('https')
 var fs = require('fs');
 // {OPTIONAL} var crypto = require('crypto')
 var auth = require('basic-auth');
-//var port = 443;
+var port = 443;
 var httpport = 80;
-/*var options = {
-    key: fs.readFileSync('privkey/goes/here/privkey.pem'),
-    cert: fs.readFileSync('cert/goes/here/cert.pem')
-};*/
+var options = {
+    key: fs.readFileSync('ssl/privkey.pem'),
+    cert: fs.readFileSync('ssl/cert.pem')
+};
 /*
 
 //OPTIONAL REQUIRES
@@ -80,9 +80,9 @@ function decrypt(text) {
 */
 
 //Starting up HTTP and HTTPS
-/*var server = https.createServer(options, app).listen(port, function() {
+var server = https.createServer(options, app).listen(port, function() {
     log.info("Express server listening on port " + port);
-});*/
+});
 
 var serverhttp = http.createServer(app).listen(httpport, function() {
     log.info("Express server listening on port " + httpport);
@@ -90,20 +90,20 @@ var serverhttp = http.createServer(app).listen(httpport, function() {
 serverhttp.listen(httpport);
 
 //SOCKET.IO INIT
-var io = require('socket.io')(serverhttp)
+var io = require('socket.io')(server)
 
-/*
+
 //ONLY ENABLE IF HTTPS IS ENABLED
 app.use(function(req, res, next) {
     if (req.secure) {
         next();
+        log.info('GET ' + req.url + "[" + req.connection.remoteAddress + "]")
     } else {
         // request was via http, so redirect to https
         res.redirect('https://' + req.headers.host + req.url); //req.headers.host
         log.debug("Redirected" + req.connection.remoteAddress + " to HTTPS.");
     }
 });
-*/
 
 app.use(express.static(__dirname + '/web'));
 
