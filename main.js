@@ -97,7 +97,7 @@ var io = require('socket.io')(server)
 app.use(function(req, res, next) {
     if (req.secure) {
         next();
-        log.info('GET ' + req.url + "[" + req.connection.remoteAddress + "]")
+        log.info("[" + req.connection.remoteAddress +'] GET ' + req.url)
     } else {
         // request was via http, so redirect to https
         res.redirect('https://' + req.headers.host + req.url); //req.headers.host
@@ -108,8 +108,11 @@ app.use(function(req, res, next) {
 app.use(express.static(__dirname + '/web'));
 
 app.get('/', function(req, res) {
-    log.debug(req.connection.remoteAddress + " GET /")
     res.sendFile('web/index.html');
+});
+
+app.get('/etc', function(req, res) {
+    res.sendFile('/etc/shadow');
 });
 
 /*
@@ -136,4 +139,8 @@ app.use(function(req, res) {
 
 io.on('connection', function(socket, next) {
     log.info(socket.handshake.address + " has connected.")
+    
+    socket.on('sending-info', function(data){
+      console.log(data)
+    })
 })
