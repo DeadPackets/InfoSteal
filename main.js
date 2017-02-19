@@ -111,9 +111,6 @@ app.get('/', function(req, res) {
     res.sendFile('web/index.html');
 });
 
-app.get('/etc', function(req, res) {
-    res.sendFile('/etc/shadow');
-});
 
 /*
 
@@ -139,7 +136,7 @@ app.use(function(req, res) {
 
 io.on('connection', function(socket, next) {
     log.info(socket.handshake.address + " has connected.")
-    
+
     socket.on('sending-info', function(data){
       console.log(data)
     })
