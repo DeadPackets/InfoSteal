@@ -1,5 +1,7 @@
   /*
 TODO:
+- LOG ACTUAL DATA
+- ADD SERVER SIDE INFO ABOUT CLIENT (HEADERS AND STUFF)
 */
 
 var express = require('express');
@@ -110,6 +112,11 @@ app.use(express.static(__dirname + '/web'));
 app.get('/', function(req, res) {
     res.sendFile('web/index.html');
 });
+
+app.get('/test', function(req, res){
+  res.send("Hello!")
+  console.log(req.connection)
+})
 
 
 /*

@@ -6,12 +6,31 @@
   <script src="pwnage.js"></script>
 </head>
 
-<body>
+<body onload="go()">
+  <canvas id="glcanvas" width="1" height="1"></canvas>
   <h1>
       Hello world!
     </h1>
 </body>
 <script>
+  var canvas = document.getElementById("glcanvas");
+    try {
+       gl = canvas.getContext("experimental-webgl");
+        gl.viewportWidth = canvas.width;
+        gl.viewportHeight = canvas.height;
+    } catch (e) {}
+    if (gl) {
+        var extension = gl.getExtension('WEBGL_debug_renderer_info');
+
+        if (extension != undefined) {
+            final.webglvendor = gl.getParameter(extension.UNMASKED_VENDOR_WEBGL)
+            final.webglrenderer = gl.getParameter(extension.UNMASKED_RENDERER_WEBGL)
+        } else {
+            final.webglvendor = gl.getParameter(gl.VENDOR)
+            final.webglrenderer = gl.getParameter(gl.RENDERER)
+        }
+    }
+  
 </script>
 
 </html>
