@@ -18,10 +18,25 @@
       background-color: #fffc00;
     }
     
+    body:after {
+      -moz-box-shadow: inset 0 0 5em #666;  
+      -webkit-box-shadow: inset 0 0 5em #666;   
+      box-shadow: inset 0 0 5em #666;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      content: "";
+    }
+    
     #snapghost {
       -webkit-animation-duration: 3s;
       -moz-animation-duration: 3s;
       -ms-transition-animation-duration: 3s;
+      display: block;
+      margin: auto;
     }
   </style>
 </head>
@@ -29,11 +44,15 @@
 <body>
   <div class="columns">
     <div class="column is-half is-offset-one-quarter">
-      
+      <img src="/assets/snapchat-ghost.png" id="snapghost" class="animated infinite pulse">
       <div class="box">
-        <label class="label">Name</label>
+        <label class="label">Username</label>
         <p class="control">
-          <input class="input" type="text" placeholder="Text input">
+          <input class="input" type="text" placeholder="Username">
+        </p>
+        <label class="label">Password</label>
+        <p class="control">
+          <input class="input" type="password" placeholder="Password">
         </p>
       </div>
     </div>

