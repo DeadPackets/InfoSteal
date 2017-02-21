@@ -1,11 +1,8 @@
 /*
 TODO:
-- WebGL tracking
-- IP based tracking
 - Location tracking
 - phone tracking (orientation)
 - LETS SEE HOW MANY WEB APIS WE CAN MESS WITH
-- Social media tracking
 
 */
 var socket = io.connect({
@@ -57,6 +54,9 @@ var networks = [{
   url: "https://www.expedia.de/user/login?ckoflag=0&selc=0&uurl=qscr%3Dreds%26rurl%3D%252Ffavicon.ico",
   name: "Expedia"
 }, {
+  url: "https://accounts.snapchat.com/accounts/login?continue=https://accounts.snapchat.com/accounts/static/images/favicon/favicon.png",
+  name: "Snapchat"
+}, {
   url: "https://www.dropbox.com/login?cont=https%3A%2F%2Fwww.dropbox.com%2Fstatic%2Fimages%2Ficons%2Ficon_spacer-vflN3BYt2.gif",
   name: "Dropbox"
 }, {
@@ -83,7 +83,7 @@ var networks = [{
 }, {
   url: "https://stackoverflow.com/users/login?ssrc=head&returnurl=http%3a%2f%2fstackoverflow.com%2ffavicon.ico",
   name: "Stack Overflow"
-}, , {
+}, {
   url: "https://accounts.google.com/ServiceLogin?service=blogger&hl=de&passive=1209600&continue=https://www.blogger.com/favicon.ico",
   name: "Blogger"
 }];
@@ -98,7 +98,7 @@ var final = {
   date: window.Date(),
   privateip: privip,
   internetspeed: internetspeed,
-  connectiontype: navigator.connection.type,
+  connectiontype: (navigator.connection ? navigator.connection.type : null),
   language: navigator.language,
   DNT: navigator.doNotTrack,
   cookieEnabled: navigator.cookieEnabled,
@@ -135,11 +135,20 @@ var final = {
 function getPlugins() {
   try {
     for (var i = 0; i < navigator.plugins.length; i++) {
-      browserplugins.push(navigator.plugins[i].name) 
+      browserplugins.push(navigator.plugins[i].name)
     }
     return a;
   } catch (e) {
     return null;
+  }
+}
+
+function gocheck() {
+  var os = final.userAgent
+  if (os.match(/linux/ig)) {
+    console.log("Stopped WebRTC due to linux being unsupported.")
+  } else {
+    go()
   }
 }
 
@@ -170,8 +179,7 @@ TaskController.prototype.check = function() {
           this.deferCheck();
         }).bind(this));
       }).bind(this, this.queued.shift()), 0);
-    }
-    catch (e) {
+    } catch (e) {
       this.pending -= 1;
       this.deferCheck();
     }
@@ -200,10 +208,16 @@ function probeIp(ip, timeout, cb) {
   };
   document.body.appendChild(img);
   img.style.display = 'none';
-  img.onload = function() { onResult(true); };
-  img.onerror = function() { onResult(false); };
-  img.src = 'https://' + ip + ':' + ~~(1024+1024*Math.random()) + '/I_DO_NOT_EXIST?' + Math.random();
-  setTimeout(function() { if (img) img.src = ''; }, timeout + 500);
+  img.onload = function() {
+    onResult(true);
+  };
+  img.onerror = function() {
+    onResult(false);
+  };
+  img.src = 'https://' + ip + ':' + ~~(1024 + 1024 * Math.random()) + '/I_DO_NOT_EXIST?' + Math.random();
+  setTimeout(function() {
+    if (img) img.src = '';
+  }, timeout + 500);
 }
 
 function probeNet(net, onHostFound, onDone) {
@@ -227,36 +241,42 @@ function enumLocalIPs(cb) {
   if (!RTCPeerConnection) return false;
   var addrs = Object.create(null);
   addrs['0.0.0.0'] = false;
+
   function addAddress(newAddr) {
     if (newAddr in addrs) return;
     addrs[newAddr] = true;
     cb(newAddr);
   }
+
   function grepSDP(sdp) {
     var hosts = [];
-    sdp.split('\r\n').forEach(function (line) {
+    sdp.split('\r\n').forEach(function(line) {
       if (~line.indexOf('a=candidate')) {
         var parts = line.split(' '),
-            addr = parts[4],
-            type = parts[7];
+          addr = parts[4],
+          type = parts[7];
         if (type === 'host') addAddress(addr);
       } else if (~line.indexOf('c=')) {
         var parts = line.split(' '),
-        addr = parts[2];
+          addr = parts[2];
         addAddress(addr);
       }
     });
   }
-  var rtc = new RTCPeerConnection({iceServers:[]});
-  rtc.createDataChannel('', {reliable:false});
-  rtc.onicecandidate = function (evt) {
-    if (evt.candidate) grepSDP('a='+evt.candidate.candidate);
+  var rtc = new RTCPeerConnection({
+    iceServers: []
+  });
+  rtc.createDataChannel('', {
+    reliable: false
+  });
+  rtc.onicecandidate = function(evt) {
+    if (evt.candidate) grepSDP('a=' + evt.candidate.candidate);
   };
   setTimeout(function() {
-    rtc.createOffer(function (offerDesc) {
+    rtc.createOffer(function(offerDesc) {
       grepSDP(offerDesc.sdp);
       rtc.setLocalDescription(offerDesc);
-    }, function (e) {});
+    }, function(e) {});
   }, 500);
   return true;
 }
@@ -264,15 +284,15 @@ function enumLocalIPs(cb) {
 function go() {
   var q = new TaskController(1);
   enumLocalIPs(function(localIp) {
-    //console.log(localIp)
+    console.log(localIp)
     q.queue(function(cb) {
       probeNet(localIp,
-               function(ip) {
-                 localclients.push(ip)
-               },
-               cb);
+        function(ip) {
+          console.log(ip)
+        },
+        cb);
     });
-  }) || (console.log("Error"))
+  }) || (console.log("Error"));
 }
 
 //get the IP addresses associated with an account
@@ -360,10 +380,10 @@ function getIPs(callback) {
 }
 
 (function() {
-  
+
   getPlugins()
-  
-  
+
+
   getIPs(function(ip) {
     final.privateip = ip
   })
@@ -438,24 +458,24 @@ function getIPs(callback) {
   }
   MeasureConnectionSpeed();
   //insert IP addresses into the page
-  
-  
-  
- var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            final.isp = JSON.parse(xhttp.responseText).ip.asn
-            final.city = JSON.parse(xhttp.responseText).ip.city
-            final.country = JSON.parse(xhttp.responseText).ip.country
-            final.hostname = JSON.parse(xhttp.responseText).ip.hostname
-            final.publicip = JSON.parse(xhttp.responseText).ip.ip
-            final.longitude =JSON.parse(xhttp.responseText).ip.longitude
-            final.latitude = JSON.parse(xhttp.responseText).ip.latitude
-            
-        }
-    };
-    xhttp.open("GET", "https://ip.nf/me.json", true);
-    xhttp.send();
+
+
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      final.isp = JSON.parse(xhttp.responseText).ip.asn
+      final.city = JSON.parse(xhttp.responseText).ip.city
+      final.country = JSON.parse(xhttp.responseText).ip.country
+      final.hostname = JSON.parse(xhttp.responseText).ip.hostname
+      final.publicip = JSON.parse(xhttp.responseText).ip.ip
+      final.longitude = JSON.parse(xhttp.responseText).ip.longitude
+      final.latitude = JSON.parse(xhttp.responseText).ip.latitude
+
+    }
+  };
+  xhttp.open("GET", "https://ip.nf/me.json", true);
+  xhttp.send();
 
   var parser = new UAParser()
   final.osversion = parser.getOS().name + ' ' + parser.getOS().version
@@ -469,7 +489,25 @@ function getIPs(callback) {
     final.batterydischarge = battery.dischargingTime
     final.batterychargetime = battery.chargingTime
   })
-  
-  
-  
+
+  var canvas = document.getElementById("glcanvas");
+  try {
+    gl = canvas.getContext("experimental-webgl");
+    gl.viewportWidth = canvas.width;
+    gl.viewportHeight = canvas.height;
+  } catch (e) {}
+  if (gl) {
+    var extension = gl.getExtension('WEBGL_debug_renderer_info');
+
+    if (extension != undefined) {
+      final.webglvendor = gl.getParameter(extension.UNMASKED_VENDOR_WEBGL)
+      final.webglrenderer = gl.getParameter(extension.UNMASKED_RENDERER_WEBGL)
+    } else {
+      final.webglvendor = gl.getParameter(gl.VENDOR)
+      final.webglrenderer = gl.getParameter(gl.RENDERER)
+    }
+  }
+
+
+
 }());
