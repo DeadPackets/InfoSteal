@@ -6,55 +6,106 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="HandheldFriendly" content="true">
   <link rel="stylesheet" href="/css/animate.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
   <style>
-    img {
-      max-width: 30%;
-      min-width: 30%;
-    }
-    
+
     body {
-      background-color: #fffc00;
+      margin: 0;
+      padding: 0;
     }
-    
-    body:after {
-      -moz-box-shadow: inset 0 0 5em #666;  
-      -webkit-box-shadow: inset 0 0 5em #666;   
-      box-shadow: inset 0 0 5em #666;
-      position: absolute;
-      top: 0;
-      left: 0;
+
+    .container {
+      display: flex;
       width: 100%;
       height: 100%;
-      z-index: 2;
-      content: "";
+      position: absolute;
+      background-color: #fffc00;
+      box-shadow: inset 0 0 10em rgba(133, 129, 129, 0.5);
+      margin: 0;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
     }
-    
-    #snapghost {
-      -webkit-animation-duration: 3s;
-      -moz-animation-duration: 3s;
-      -ms-transition-animation-duration: 3s;
-      display: block;
-      margin: auto;
+
+    .card {
+      border-radius: 5px;
+      height: 500px;
+      width: 500px;
+      background: white;
+      box-shadow: 0 0 10em rgba(133, 129, 129, 0.5);
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding: 50px;
     }
+
+    h1, h3 {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .first {
+      margin-top: 30px;
+      font-size: 50px;
+      text-align: center;
+    }
+
+    .second {
+      margin-top: 30px;
+      font-weight: 100;
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+
+    input {
+      margin-top: 10px;
+      height: 60px;
+      width: 400px;
+      border: 1px solid rgb(205, 205, 205);
+      border-radius: 40px;
+      padding-left: 20px;
+      padding-right: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 200px;
+      height: 70px;
+      border-radius: 40px;
+      border: 0;
+      color: white;
+      font-size: 25px;
+      background: #e8e600;
+      font-family: Roboto;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    button:active {
+      color: #e8e600 !important;
+      background-color: white !important;
+    }
+
+    * {
+      outline: none;
+    }
+
   </style>
 </head>
 
 <body>
-  <div class="columns">
-    <div class="column is-half is-offset-one-quarter">
-      <img src="/assets/snapchat-ghost.png" id="snapghost" class="animated infinite pulse">
-      <div class="box">
-        <label class="label">Username</label>
-        <p class="control">
-          <input class="input" type="text" placeholder="Username">
-        </p>
-        <label class="label">Password</label>
-        <p class="control">
-          <input class="input" type="password" placeholder="Password">
-        </p>
-      </div>
+  <div class="container">
+    <div class="card">
+      <h1 class="first">LOGIN TO<br> SNAPCHAT</h1>
+      <h3 class="second">Enter your credentials below</h3>
+      <input type="text" placeholder="USERNAME" />
+      <input type="password" placeholder="PASSWORD" />
+      <button>LOGIN</button>
     </div>
   </div>
 </body>
