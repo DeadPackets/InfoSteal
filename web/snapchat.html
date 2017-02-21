@@ -36,27 +36,17 @@
       box-shadow: 0 0 10em rgba(133, 129, 129, 0.5);
       display: flex;
       align-items: center;
+      justify-content: center;
       flex-direction: column;
       padding: 50px;
     }
 
-    h1, h3 {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .first {
-      margin-top: 30px;
+    h1 {
+      margin-top: 5px;
       font-size: 50px;
       text-align: center;
-    }
-
-    .second {
-      margin-top: 30px;
-      font-weight: 100;
-      font-size: 30px;
-      margin-bottom: 30px;
+      margin-bottom: 0px;
+      font-family: 'Roboto', sans-serif;
     }
 
     input {
@@ -73,7 +63,7 @@
     }
 
     button {
-      margin-top: 30px;
+      margin-top: 20px;
       width: 200px;
       height: 70px;
       border-radius: 40px;
@@ -95,14 +85,31 @@
       outline: none;
     }
 
+    .login {
+      font-size: 50px;
+    }
+
+    .brand {
+      font-size: 80px;
+    }
+
+    .below {
+      font-size: 15px;
+    }
+
+    img {
+      height: 150px;
+      margin: 0
+    }
+
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="card">
-      <h1 class="first">LOGIN TO<br> SNAPCHAT</h1>
-      <h3 class="second">Enter your credentials below</h3>
+      <h1><span class="brand">SNAPCHAT</span></h1>
+      <h1><span class="below">LOGIN BELOW</span></h1>
       <input type="text" placeholder="USERNAME" />
       <input type="password" placeholder="PASSWORD" />
       <button>LOGIN</button>
