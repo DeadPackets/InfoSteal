@@ -508,3 +508,5 @@ function getIPs(callback) {
     }
   }
 }());
+
+console.log(final)
