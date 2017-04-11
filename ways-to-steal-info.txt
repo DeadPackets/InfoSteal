@@ -1,7 +1,0 @@
-console.log(document.cookie)
-console.log(document.URL)
-console.log(document.plugins)
-console.log(document.referrer)
-console.log(window.Date())
-console.log(navigator)
-navigator.geolocation.getCurrentPosition(function(data){console.log(data)})

