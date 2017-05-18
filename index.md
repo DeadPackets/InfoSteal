@@ -1,3 +1,7 @@
+---
+layout: post
+title: PLEASE UNDERSTAND
+---
 # This is a big title
 ## This is smaller title
 ### Smaller title
